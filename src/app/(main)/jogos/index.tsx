@@ -1,15 +1,18 @@
-import { ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import ItemJogo from "../../../ItemJogo";
 import { jogosEmDestaque } from "../../../jogos";
 
 export default function ListaDeJogos() {
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#1b2838" }}>
-      <View style={{ flexDirection: 'column', padding: 16, gap: 16 }}>
-        {jogosEmDestaque.map((jogo) => (
-          <ItemJogo key={jogo.id} jogo={jogo} />
-        ))}
-      </View>
-    </ScrollView>
-  )
+    <View style={{ flex: 1, backgroundColor: "#1b2838", paddingVertical: 16 }}>
+      <FlatList
+        data={jogosEmDestaque}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <ItemJogo jogo={item} />}
+        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
+  );
 }
