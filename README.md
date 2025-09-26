@@ -7,5 +7,5 @@ Turma:
 TAD 24/1
 
 Integrantes:
-André Luis Furtado Aguillera
+André Luis Furtado Aguillera,
 Yolanda Candia Rodrigues
