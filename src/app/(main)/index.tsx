@@ -6,7 +6,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       {/* Logo Steam */}
       <Image 
-        source={{ uri: '' }}
+        source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqzbyoT-O8FAZpSp7_QVnsFXdSYxcrS45pJQ&s' }}
         style={styles.logo}
       />
 
