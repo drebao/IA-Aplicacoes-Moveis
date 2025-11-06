@@ -1,0 +1,5 @@
+[
+  { "id": 1, "titulo": "Terraria",        "imagem": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/105600/header.jpg", "preco": 32.99 },
+  { "id": 2, "titulo": "Stardew Valley",  "imagem": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg", "preco": 24.99 },
+  { "id": 3, "titulo": "Cuphead",         "imagem": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/268910/header.jpg", "preco": 36.99 }
+]
