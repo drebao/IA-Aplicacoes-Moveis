@@ -1,7 +1,6 @@
 import { openDatabaseSync } from "expo-sqlite";
 import type { Game } from "../types";
 
-// use o mesmo nome sempre; se quiser "reset total", mude esse nome (ex: games_v2.db)
 const db = openDatabaseSync("games.db");
 
 export function initDB() {

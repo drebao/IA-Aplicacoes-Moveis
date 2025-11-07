@@ -1,6 +1,6 @@
 import type { Game } from "../types";
 import { hasAnyGame, upsertGames, clearGames } from "../lib/db";
-import games from "../data/games"; // ✅ agora vem do games.ts
+import games from "../data/games.json";
 
 function mapItemToGame(it: any, idx: number): Game {
   const id = Number(it.id ?? idx + 1);

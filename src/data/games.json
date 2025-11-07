@@ -1,0 +1,22 @@
+[
+  { "id": 1, "title": "Terraria", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/105600/header.jpg", "description": "Aventura e construção em mundo 2D repleto de mistérios." },
+  { "id": 2, "title": "Stardew Valley", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg", "description": "Gerencie sua fazenda, crie laços e explore minas cheias de segredos." },
+  { "id": 3, "title": "Hollow Knight", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/367520/header.jpg", "description": "Metroidvania desafiador num reino subterrâneo vasto e misterioso." },
+  { "id": 4, "title": "Hades", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1145360/header.jpg", "description": "Rogue-like veloz sobre escapar do submundo desafiando os deuses." },
+  { "id": 5, "title": "Celeste", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/504230/header.jpg", "description": "Plataforma preciso e emotivo sobre superar desafios." },
+  { "id": 6, "title": "Cuphead", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/268910/header.jpg", "description": "Run and gun com visual de desenho clássico dos anos 1930." },
+  { "id": 7, "title": "Enter the Gungeon", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/311690/header.jpg", "description": "Bullet-hell sobre heróis em busca da arma que mata o passado." },
+  { "id": 8, "title": "Dead Cells", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/588650/header.jpg", "description": "Rogue-lite com combate fluido e exploração procedural." },
+  { "id": 9, "title": "The Witcher 3: Wild Hunt", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg", "description": "RPG épico em mundo aberto, cheio de escolhas e consequências." },
+  { "id": 10, "title": "Red Dead Redemption 2", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg", "description": "Drama de faroeste com atenção absurda aos detalhes." },
+  { "id": 11, "title": "Baldur's Gate 3", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg", "description": "RPG de mesa em forma digital, liberdade total de escolhas." },
+  { "id": 12, "title": "Portal 2", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/620/header.jpg", "description": "Puzzles brilhantes e humor ácido com portais de teletransporte." },
+  { "id": 13, "title": "Subnautica", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/264710/header.jpg", "description": "Sobrevivência submarina em um planeta alienígena." },
+  { "id": 14, "title": "Slay the Spire", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/646570/header.jpg", "description": "Deckbuilder estratégico com roguelike e combos viciantes." },
+  { "id": 15, "title": "Dark Souls III", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/374320/header.jpg", "description": "Ação desafiadora com mundos interligados e chefes memoráveis." },
+  { "id": 16, "title": "Factorio", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/427520/header.jpg", "description": "Automatize fábricas e otimize cada esteira transportadora." },
+  { "id": 17, "title": "Risk of Rain 2", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/632360/header.jpg", "description": "Rogue-like 3D com escalada de dificuldade e itens absurdos." },
+  { "id": 18, "title": "Vampire Survivors", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1794680/header.jpg", "description": "Sobreviva a enxames e encontre builds quebradas em minutos." },
+  { "id": 19, "title": "Rocket League", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252950/header.jpg", "description": "Carros + futebol + física maluca. Multiplayer frenético." },
+  { "id": 20, "title": "CS2", "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg", "description": "Tiro competitivo 5v5 com economia de rounds e precisão." }
+]
