@@ -20,9 +20,7 @@ O objetivo do projeto é **listar e exibir informações de jogos**, permitindo 
 -  **Persistência offline com SQLite**  
 - Os dados são armazenados localmente após o primeiro carregamento  
 - Mesmo sem internet, o catálogo permanece disponível  
--  **Interface no estilo Steam**  
-- Fundo escuro, tons azulados e visual moderno  
--  **Carregamento automático de catálogo local (games.json)**  
+-  **Interface no estilo Steam**    
 
 ---
 
