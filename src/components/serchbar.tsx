@@ -1,46 +1,54 @@
-import { memo } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { View, TextInput, Pressable, Text } from "react-native";
+import { useState, useEffect } from "react";
 
 type Props = {
   value: string;
-  onChangeText: (text: string) => void;
+  onChange: (text: string) => void;
   placeholder?: string;
 };
 
-function SearchBar({ value, onChangeText, placeholder = "Pesquisar jogos..." }: Props) {
+export default function SearchBar({ value, onChange, placeholder }: Props) {
+  const [local, setLocal] = useState(value);
+
+  useEffect(() => {
+    const id = setTimeout(() => onChange(local), 180);
+    return () => clearTimeout(id);
+  }, [local, onChange]);
+
   return (
-    <View style={styles.wrapper}>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        borderRadius: 12,
+        backgroundColor: "#111418",
+        borderWidth: 1,
+        borderColor: "#222",
+      }}
+    >
       <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor="#8aa0b2"
-        style={styles.input}
+        value={local}
+        onChangeText={setLocal}
+        placeholder={placeholder ?? "Buscar jogos..."}
+        placeholderTextColor="#8B8D93"
         autoCapitalize="none"
         autoCorrect={false}
         returnKeyType="search"
+        style={{
+          flex: 1,
+          color: "#fff",
+          fontSize: 16,
+          paddingVertical: 4,
+        }}
       />
+      {local.length > 0 && (
+        <Pressable onPress={() => setLocal("")}>
+          <Text style={{ color: "#9fd3ff", fontWeight: "600" }}>Limpar</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 8,
-    backgroundColor: "#1b2838",
-  },
-  input: {
-    height: 46,
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    backgroundColor: "#0f232e",
-    borderWidth: 1,
-    borderColor: "#213246",
-    color: "#ffffff",
-    fontSize: 16,
-  },
-});
-
-export default memo(SearchBar);

@@ -1,41 +1,68 @@
+import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl } from "react-native";
 import { useMemo, useState } from "react";
-import { FlatList, View, Text } from "react-native";
-import ItemJogo from "../../../ItemJogo";
+import { useGames } from "../../../hooks/useGames";
 import SearchBar from "../../../components/serchbar";
-import { jogosEmDestaque } from "../../../jogos";
 
-// normaliza texto: remove acentos e coloca em minúsculas
+
 function norm(s: string) {
-  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
-export default function ListaDeJogos() {
+export default function JogosScreen() {
+  const { games, loading, reload } = useGames();
   const [query, setQuery] = useState("");
 
-  const data = useMemo(() => {
-    if (!query.trim()) return jogosEmDestaque;
+  const filtered = useMemo(() => {
+    if (!query) return games;
     const q = norm(query);
-    return jogosEmDestaque.filter(j => norm(j.titulo).includes(q));
-  }, [query]);
+    return games.filter(
+      g => norm(g.title).includes(q) || norm(g.description ?? "").includes(q)
+    );
+  }, [games, query]);
+
+  if (loading) {
+    return (
+      <View style={{ flex:1, alignItems:"center", justifyContent:"center" }}>
+        <ActivityIndicator size="large" />
+        <Text style={{ marginTop: 8 }}>Carregando jogos…</Text>
+      </View>
+    );
+  }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#1b2838" }}>
+    <View style={{ flex:1, padding:12, gap:12 }}>
+      <SearchBar value={query} onChange={setQuery} placeholder="Buscar por título ou descrição..." />
+
       <FlatList
-        data={data}
+        data={filtered}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <ItemJogo jogo={item} />}
-        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-        ListHeaderComponent={
-          <SearchBar value={query} onChangeText={setQuery} />
-        }
+        refreshControl={<RefreshControl refreshing={false} onRefresh={reload} />}
+        ItemSeparatorComponent={() => <View style={{ height:8 }} />}
+        renderItem={({ item }) => (
+          <View style={{ flexDirection:"row", gap:12, padding:12, borderRadius:12, backgroundColor:"#101418" }}>
+            {item.thumbnail ? (
+              <Image source={{ uri: String(item.thumbnail) }} style={{ width:72, height:72, borderRadius:8 }} />
+            ) : (
+              <View style={{ width:72, height:72, borderRadius:8, backgroundColor:"#222" }} />
+            )}
+            <View style={{ flex:1 }}>
+              <Text style={{ fontWeight:"700", fontSize:16, color:"#fff" }}>{item.title}</Text>
+              {!!item.description && (
+                <Text numberOfLines={2} style={{ color:"#cfcfcf" }}>
+                  {item.description}
+                </Text>
+              )}
+            </View>
+          </View>
+        )}
         ListEmptyComponent={
-          <Text style={{ color: "#c7d5e0", textAlign: "center", padding: 24 }}>
-            Nenhum jogo encontrado para “{query}”.
+          <Text style={{ textAlign:"center", marginTop:24 }}>
+            {query ? "Nenhum jogo encontrado para sua busca." : "Nenhum jogo cadastrado."}
           </Text>
         }
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32, paddingTop: 8 }}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
       />
     </View>
   );
