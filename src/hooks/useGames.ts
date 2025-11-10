@@ -23,7 +23,6 @@ export function useGames() {
 
   const loadFromDB = useCallback(() => {
     const rows = getAllGames();
-    // de-dup por título, por garantia
     const unique = rows.filter(
       (g, i, self) =>
         i === self.findIndex((x) => x.title.trim().toLowerCase() === g.title.trim().toLowerCase())

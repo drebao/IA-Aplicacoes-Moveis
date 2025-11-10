@@ -1,15 +1,26 @@
-// src/app/(main)/jogos/index.tsx
+import React, { useMemo, useState } from "react";
 import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl } from "react-native";
 import { useGames } from "../../../hooks/useGames";
 import SearchBar from "../../../components/SearchBar";
 
-
 export default function JogosScreen() {
   const { games, loading, error, offline, reload } = useGames();
 
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return games;
+    return games.filter((g) => g.title?.toLowerCase().includes(q));
+  }, [games, query]);
+
   return (
     <View style={{ flex: 1, padding: 12, gap: 12, backgroundColor: "#171A21" }}>
-      <SearchBar placeholder="Buscar (local)..." onChange={() => {}} />{/* se não usar busca remota, pode ocultar */}
+      <SearchBar
+        placeholder="Buscar jogos..."
+        value={query}
+        onChange={setQuery}
+      />
 
       {offline && (
         <Text style={{ color: "orange", textAlign: "center", fontWeight: "600" }}>
@@ -25,9 +36,11 @@ export default function JogosScreen() {
         </View>
       ) : (
         <FlatList
-          data={games}
+          data={filtered}
           keyExtractor={(item) => String(item.id)}
-          refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={reload} />
+          }
           initialNumToRender={8}
           windowSize={10}
           removeClippedSubviews
@@ -45,9 +58,14 @@ export default function JogosScreen() {
               }}
             >
               {item.thumbnail ? (
-                <Image source={{ uri: String(item.thumbnail) }} style={{ width: 88, height: 88, borderRadius: 8 }} />
+                <Image
+                  source={{ uri: String(item.thumbnail) }}
+                  style={{ width: 88, height: 88, borderRadius: 8 }}
+                />
               ) : (
-                <View style={{ width: 88, height: 88, borderRadius: 8, backgroundColor: "#2A475E" }} />
+                <View
+                  style={{ width: 88, height: 88, borderRadius: 8, backgroundColor: "#2A475E" }}
+                />
               )}
               <View style={{ flex: 1 }}>
                 <Text style={{ fontWeight: "700", fontSize: 16, color: "#FFFFFF" }} numberOfLines={1}>
@@ -63,7 +81,7 @@ export default function JogosScreen() {
           )}
           ListEmptyComponent={
             <Text style={{ textAlign: "center", marginTop: 24, color: "#C7D5E0" }}>
-              Nenhum jogo disponível no momento.
+              {query ? "Nenhum jogo encontrado para a busca." : "Nenhum jogo disponível."}
             </Text>
           }
         />

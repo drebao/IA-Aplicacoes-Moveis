@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      {/* Logo Steam */}
+      {}
       <Image 
         source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqzbyoT-O8FAZpSp7_QVnsFXdSYxcrS45pJQ&s' }}
         style={styles.logo}
@@ -13,7 +13,7 @@ export default function HomeScreen() {
       <Text style={styles.title}>Bem-vindo à Steam</Text>
       <Text style={styles.subtitle}>Explore os jogos em destaque</Text>
 
-      {/* Botão para ir aos jogos */}
+      {}
       <TouchableOpacity style={styles.button}>
         <Link href="/jogos" style={styles.buttonText}>
           Ir para Jogos

@@ -7,7 +7,6 @@ export type SteamGame = {
 
 const DETAILS_URL = "https://store.steampowered.com/api/appdetails?appids=";
 
-// Lista de appids populares (catálogo bonito)
 const POPULAR_APPIDS = [
   1086940, // Baldur's Gate 3
   413150,  // Stardew Valley
@@ -27,7 +26,6 @@ const POPULAR_APPIDS = [
   730      // CS2
 ];
 
-// util: timeout simples
 async function fetchWithTimeout(url: string, ms = 10000): Promise<Response> {
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), ms);
@@ -38,7 +36,6 @@ async function fetchWithTimeout(url: string, ms = 10000): Promise<Response> {
   }
 }
 
-// decodifica entidades HTML (&amp; -> &)
 function decodeHtml(s: string) {
   if (!s) return s;
   return s
@@ -66,7 +63,6 @@ async function fetchGameDetails(appid: number): Promise<SteamGame | null> {
   };
 }
 
-// Busca em “lotes” para não travar
 export async function fetchFeatured(): Promise<SteamGame[]> {
   const results: SteamGame[] = [];
   const chunkSize = 6;
@@ -81,7 +77,6 @@ export async function fetchFeatured(): Promise<SteamGame[]> {
   return results.filter((g) => !!g.thumbnail);
 }
 
-// mapeia para o tipo usado no app
 export function mapToDomain(g: SteamGame) {
   return {
     id: g.id,

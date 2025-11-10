@@ -8,7 +8,7 @@ export default function RootLayout() {
         animation: 'fade',
       }}
     >
-      {/* Mantém o fluxo principal do app */}
+      {}
       <Stack.Screen name="(main)" />
     </Stack>
   )
