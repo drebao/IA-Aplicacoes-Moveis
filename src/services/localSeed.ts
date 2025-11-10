@@ -1,22 +1,16 @@
-import type { Game } from "../types";
-import { hasAnyGame, upsertGames, clearGames } from "../lib/db";
-import games from "../data/games.json";
+import { hasAnyGame, upsertGames } from "../lib/db";
 
-function mapItemToGame(it: any, idx: number): Game {
-  const id = Number(it.id ?? idx + 1);
-  const title = String(it.title ?? it.name ?? it.nome ?? `Jogo ${id}`);
-  const thumbnail = it.thumbnail ?? it.image ?? it.img ?? null;
-  const description = it.description ?? it.descricao ?? it.short_description ?? null;
-  return { id, title, thumbnail, description };
-}
+// Seed mínimo só para não ficar vazio na 1ª execução totalmente offline.
+// (thumbnails podem ficar null; assim que houver internet, a sync baixa capas reais)
+const FALLBACK = [
+  { id: 1086940, title: "Baldur's Gate 3", thumbnail: null, description: "RPG de mesa em forma digital, liberdade total de escolhas." },
+  { id: 413150,  title: "Stardew Valley",  thumbnail: null, description: "Fazenda, relacionamentos e exploração." },
+  { id: 105600,  title: "Terraria",        thumbnail: null, description: "Aventura e construção em 2D." }
+];
 
-// force=true só quando você quiser regravar o banco
-export async function seedIfNeeded(options?: { force?: boolean }) {
-  const force = !!options?.force;
-  if (!force && hasAnyGame()) return;
-  if (force) clearGames();
-
-  const list = Array.isArray(games) ? games : [];
-  const mapped = list.map(mapItemToGame);
-  if (mapped.length) upsertGames(mapped);
+export async function seedIfNeeded() {
+  // Se já tem algo no banco, não faz nada
+  if (hasAnyGame()) return;
+  // Povoa com 3 jogos mínimos (sem depender de arquivo externo)
+  upsertGames(FALLBACK);
 }

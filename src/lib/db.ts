@@ -1,7 +1,7 @@
 import { openDatabaseSync } from "expo-sqlite";
 import type { Game } from "../types";
 
-const db = openDatabaseSync("games.db");
+const db = openDatabaseSync("steamdb.db");
 
 export function initDB() {
   db.execSync(`
