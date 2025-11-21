@@ -14,12 +14,12 @@ O objetivo do projeto é **listar e exibir informações de jogos**, permitindo 
 ---
 
 ## Principais Funcionalidades
-
+-  Sincronização com API da Steam
 -  **Listagem de jogos** com título, imagem e descrição  
 -  **Busca dinâmica** (filtra jogos pelo nome ou descrição)  
 -  **Persistência offline com SQLite**  
-- Os dados são armazenados localmente após o primeiro carregamento  
-- Mesmo sem internet, o catálogo permanece disponível  
+-  Os dados são armazenados localmente após o primeiro carregamento  
+-  Mesmo sem internet, o catálogo permanece disponível  
 -  **Interface no estilo Steam**    
 
 ---
@@ -50,7 +50,7 @@ npm install
 
 ### Rodar o app:
 ```bash
-npx expo start
+npx expo start -c
 ```
 
 ---
@@ -59,8 +59,7 @@ npx expo start
 
 1. Ao abrir, a tela inicial exibe uma mensagem de boas-vindas e um botão **"Ir para Jogos"**.  
 2. A tela principal mostra o **catálogo de jogos** com imagens e descrições.  
-3. Use a **barra de busca** no topo para filtrar por nome ou palavras-chave.  
-4. O app mantém o conteúdo mesmo **sem conexão com a internet**.  
+3. Use a **barra de busca** no topo para filtrar por nome ou palavras-chave.    
 
 ---
 

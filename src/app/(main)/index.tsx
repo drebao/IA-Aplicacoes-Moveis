@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      {}
       <Image 
         source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqzbyoT-O8FAZpSp7_QVnsFXdSYxcrS45pJQ&s' }}
         style={styles.logo}
@@ -13,10 +12,15 @@ export default function HomeScreen() {
       <Text style={styles.title}>Bem-vindo à Steam</Text>
       <Text style={styles.subtitle}>Explore os jogos em destaque</Text>
 
-      {}
       <TouchableOpacity style={styles.button}>
         <Link href="/jogos" style={styles.buttonText}>
           Ir para Jogos
+        </Link>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={[styles.button, { marginTop: 16, backgroundColor: "#4caf50" }]}>
+        <Link href="/favoritos" style={styles.buttonText}>
+          Ver Favoritos
         </Link>
       </TouchableOpacity>
     </View>

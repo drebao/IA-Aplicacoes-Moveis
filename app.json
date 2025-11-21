@@ -1,11 +1,11 @@
 {
   "expo": {
-    "scheme": "steam",
-    "name": "steam",
-    "slug": "steam",
+    "scheme": "steamdb",
+    "name": "steamdb",
+    "slug": "steamdb",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/steam.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {

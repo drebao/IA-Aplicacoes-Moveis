@@ -3,4 +3,6 @@ export type Game = {
   title: string;
   thumbnail?: string | null;
   description?: string | null;
+  isFavorite?: boolean;
+  price?: string | null;
 };

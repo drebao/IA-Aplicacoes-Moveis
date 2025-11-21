@@ -1,11 +1,17 @@
+import type { Game } from "../types";
+
 export type SteamGame = {
   id: number;
   title: string;
   thumbnail: string | null;
   description: string | null;
+  priceText: string | null;
 };
 
-const DETAILS_URL = "https://store.steampowered.com/api/appdetails?appids=";
+const DETAILS_URL =
+  "https://store.steampowered.com/api/appdetails?cc=br&l=portuguese&appids=";
+const SEARCH_RESULTS_URL =
+  "https://store.steampowered.com/search/results/";
 
 const POPULAR_APPIDS = [
   1086940, // Baldur's Gate 3
@@ -55,11 +61,20 @@ async function fetchGameDetails(appid: number): Promise<SteamGame | null> {
   if (!node?.success || !node?.data || node.data.type !== "game") return null;
 
   const d = node.data;
+
+  let priceText: string | null = null;
+  if (d.is_free) {
+    priceText = "Gratuito para jogar";
+  } else if (d.price_overview?.final_formatted) {
+    priceText = d.price_overview.final_formatted as string;
+  }
+
   return {
     id: appid,
     title: d.name ?? `App ${appid}`,
     thumbnail: d.header_image ?? null,
-    description: decodeHtml(d.short_description ?? "")
+    description: decodeHtml(d.short_description ?? ""),
+    priceText,
   };
 }
 
@@ -77,11 +92,79 @@ export async function fetchFeatured(): Promise<SteamGame[]> {
   return results.filter((g) => !!g.thumbnail);
 }
 
-export function mapToDomain(g: SteamGame) {
+export function mapToDomain(g: SteamGame): Game {
   return {
     id: g.id,
     title: g.title,
     thumbnail: g.thumbnail ?? null,
-    description: g.description ?? "Sem descrição disponível"
+    description: g.description ?? "Sem descrição disponível",
+    isFavorite: false,
+    price: g.priceText ?? null,
   };
+}
+
+export async function searchGames(term: string): Promise<Game[]> {
+  const q = term.trim();
+  if (!q) return [];
+
+  const qs =
+    `term=${encodeURIComponent(q)}` +
+    `&category1=998` +
+    `&json=1`;
+
+  const url = `${SEARCH_RESULTS_URL}?${qs}`;
+
+  try {
+    const res = await fetchWithTimeout(url);
+    if (!res.ok) {
+      return [];
+    }
+
+    const json: any = await res.json();
+    const items = json?.items ?? [];
+    if (!Array.isArray(items)) {
+      return [];
+    }
+
+    const ids: number[] = [];
+    for (const item of items) {
+      const logo: string = item.logo;
+      if (!logo) continue;
+
+      let id: number | null = null;
+
+      const m1 = /\/apps\/(\d+)\//.exec(logo);
+      if (m1 && m1[1]) {
+        id = Number(m1[1]);
+      } else {
+        const m2 = /steam\/\w+\/(\d+)\//.exec(logo);
+        if (m2 && m2[1]) {
+          id = Number(m2[1]);
+        }
+      }
+
+      if (id && !Number.isNaN(id) && !ids.includes(id)) {
+        ids.push(id);
+      }
+    }
+
+    const limited = ids.slice(0, 15);
+
+    const detailed = await Promise.all(
+      limited.map((id) => fetchGameDetails(id).catch(() => null))
+    );
+
+    const games: Game[] = (detailed.filter(Boolean) as SteamGame[]).map((g) => ({
+      id: g.id,
+      title: g.title,
+      thumbnail: g.thumbnail,
+      description: g.description ?? "Sem descrição disponível",
+      isFavorite: false,
+      price: g.priceText ?? null,
+    }));
+
+    return games;
+  } catch {
+    return [];
+  }
 }

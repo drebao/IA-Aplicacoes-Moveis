@@ -1,9 +1,17 @@
-// src/hooks/useGames.ts
 import { useEffect, useState, useCallback, useRef } from "react";
 import type { Game } from "../types";
-import { initDB, getAllGames /*, clearGames*/ } from "../lib/db";
+
+import {
+  initDB,
+  getAllGames,
+  upsertGames,
+  setFavorite,
+  hasAnyGame,
+} from "../lib/db";
+
 import { seedIfNeeded } from "../services/localSeed";
 import { syncFeatured } from "../services/sync";
+
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
 
 function isOnlineStable(state: NetInfoState | null): boolean {
@@ -23,11 +31,7 @@ export function useGames() {
 
   const loadFromDB = useCallback(() => {
     const rows = getAllGames();
-    const unique = rows.filter(
-      (g, i, self) =>
-        i === self.findIndex((x) => x.title.trim().toLowerCase() === g.title.trim().toLowerCase())
-    );
-    setGames(unique);
+    setGames(rows);
   }, []);
 
   const syncIfOnline = useCallback(async () => {
@@ -35,17 +39,30 @@ export function useGames() {
       setError(null);
       await syncFeatured();
       setOffline(false);
-      console.log("🌐 Online: sincronizado com a Steam");
+      console.log(" Online: sincronizado com a Steam");
     } catch (e) {
-      // Se falhar (sem rede/CORS), mantemos cache
       setOffline(true);
-      console.log("⚠️ Sync falhou — usando SQLite");
+      console.log(" Sync falhou — usando SQLite");
     } finally {
       loadFromDB();
     }
   }, [loadFromDB]);
 
-  // Carga inicial única
+  const toggleFavorite = useCallback((game: Game) => {
+    const updated: Game = {
+      ...game,
+      isFavorite: !game.isFavorite,
+    };
+
+    upsertGames([updated]);
+
+    setFavorite(updated.id, updated.isFavorite ?? false);
+
+    setGames((prev) =>
+      prev.map((g) => (g.id === updated.id ? updated : g))
+    );
+  }, []);
+
   useEffect(() => {
     let unsub = () => {};
     let finished = false;
@@ -55,8 +72,8 @@ export function useGames() {
         setLoading(true);
         initDB();
 
-        seedIfNeeded(); 
-        loadFromDB(); 
+        seedIfNeeded();
+        loadFromDB();
 
         const s = await NetInfo.fetch();
         const online = isOnlineStable(s);
@@ -71,6 +88,7 @@ export function useGames() {
       } finally {
         finished = true;
         setLoading(false);
+
         const sub = NetInfo.addEventListener((state) => {
           if (!finished) return;
 
@@ -95,19 +113,21 @@ export function useGames() {
             return;
           }
         });
+
         unsub = sub;
       }
     })();
 
     return () => {
       if (coolingRef.current) clearTimeout(coolingRef.current);
-      try { unsub && (unsub as any)(); } catch {}
+      try {
+        unsub && (unsub as any)();
+      } catch {}
     };
   }, [loadFromDB, syncIfOnline]);
 
   const reload = useCallback(async () => {
     if (offline) {
-      console.log("↻ Reload ignorado (offline) — mostrando cache");
       loadFromDB();
       return;
     }
@@ -119,5 +139,12 @@ export function useGames() {
     }
   }, [offline, loadFromDB, syncIfOnline]);
 
-  return { games, loading, error, offline, reload };
+  return {
+    games,
+    loading,
+    error,
+    offline,
+    reload,
+    toggleFavorite,
+  };
 }
